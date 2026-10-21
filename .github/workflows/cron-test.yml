@@ -1,0 +1,26 @@
+name: cron test
+
+on:
+  schedule:
+    - cron: '20 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  cron-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show current time
+        run: |
+          echo "== cron test start =="
+          echo "Current UTC time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          echo "Repository: $GITHUB_REPOSITORY"
+
+      - name: Run simple script
+        run: |
+          chmod +x scripts/cron-check.sh
+          bash scripts/cron-check.sh
